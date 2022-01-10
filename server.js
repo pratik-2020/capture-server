@@ -10,7 +10,7 @@ const exphbs = require('express-handlebars');
 const fs = require('fs');
 const e = require('express');
 let d = "";
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 require('dotenv').config();
 const host = process.env.host;
