@@ -12,13 +12,18 @@ const e = require('express');
 let d = "";
 app.use(cors());
 app.use(express.json());
+require('dotenv').config();
+const host = process.env.host;
+const us = process.env.user
+const ps = process.env.pass
+const r = process.env.db
+const p = process.env.port
 app.use('/uploads', express.static('uploads'));
 const db = mysql.createConnection({
-    host: "sql6.freesqldatabase.com",
-    user: "sql6464353",
-    password: "NxGhJ4VSyN",
-    database: "sql6464353",
-    port: 3306
+    host: host,
+    user: us,
+    password: ps,
+    database: r,
 });
 app.get('/getfile/:path', (req, res) => {
     res.download('./uploads/'+req.params.path);
