@@ -25,6 +25,7 @@ const db = mysql.createConnection({
     password: ps,
     database: r,
 });
+
 app.get('/getfile/:path', (req, res) => {
     res.download('./uploads/'+req.params.path);
 })
@@ -47,6 +48,9 @@ const filefilter = (req, file, cb) => {
         cb(new Error("Unsupported file"), false);
     }
 }
+app.get('/', (req, res) => {
+    res.send("Welcome");
+})
 const upload = multer({
     storage: storage,
     limits: {
