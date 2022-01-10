@@ -14,10 +14,11 @@ app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "Pratik@123",
-    database: "capture"
+    host: "sql6.freesqldatabase.com",
+    user: "sql6464353",
+    password: "NxGhJ4VSyN",
+    database: "sql6464353",
+    port: 3306
 });
 app.get('/getfile/:path', (req, res) => {
     res.download('./uploads/'+req.params.path);
@@ -59,8 +60,10 @@ const tp = mailer.createTransport({
 app.post('/login', (req, res) => {
     const user = req.body.user
     const pass = req.body.pass
+    console.log(user+' '+pass);
     db.query("SELECT password FROM username WHERE user = '"+user+"'", (err, result) => {
         if(err){
+            console.log(err.message);
             res.send("Check your credentials");
         }
         else{
@@ -342,6 +345,7 @@ app.post('/msg/seen', (req, res) => {
         }
     })
 })
-app.listen(3001, () => {
-    console.log("Listening at 3001!!");
+const pt = process.env.port || 3001;
+app.listen( pt, () => {
+    console.log("Listening at "+pt+"!!");
 });
