@@ -355,6 +355,6 @@ app.post('/msg/seen', (req, res) => {
     })
 })
 const pt = process.env.port || 3001;
-app.listen( pt, () => {
+app.listen( pt,'0.0.0.0', () => {
     console.log("Listening at "+pt+"!!");
 });
