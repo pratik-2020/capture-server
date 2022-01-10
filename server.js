@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
-
+const argv = require('yargs').argv;
 const app = express();
 const cors = require('cors');
 const mailer = require('nodemailer');
@@ -354,7 +354,7 @@ app.post('/msg/seen', (req, res) => {
         }
     })
 })
-const pt = process.env.port || 3001;
-app.listen( pt,'0.0.0.0', () => {
+const pt = argv.port || 3001;
+app.listen( pt, () => {
     console.log("Listening at "+pt+"!!");
 });
