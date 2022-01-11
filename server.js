@@ -11,20 +11,14 @@ const fs = require('fs');
 const e = require('express');
 let d = "";
 const corsOpts = {
-    origin: 'http://localhost:3000',
+    origin: '*',
   
     methods: [
       'GET',
       'POST',
-    ],
-  
-    allowedHeaders: [
-      'Content-Type',
-    ],
+    ]
   };
-app.use(cors({
-    origin: "http://localhost:3000"
-}));
+app.use(cors(corsOpts));
 app.use(express.json());
 require('dotenv').config();
 const host = process.env.host;
@@ -79,9 +73,9 @@ const tp = mailer.createTransport({
         pass:"Capture@123"
     }
 })
-app.use(function(req, res, next) {
-        res.setHeader('Access-Control-Allow-Origin', 'https://capture-img.herokuapp.com/');
-});
+// app.use(function(req, res, next) {
+//         res.setHeader('Access-Control-Allow-Origin', '*');
+// });
 app.post('/login', (req, res) => {
     const user = req.body.user
     const pass = req.body.pass
@@ -90,8 +84,6 @@ app.post('/login', (req, res) => {
         console.log(user+" "+pass);
         if(err){
             console.log(err.message);
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.send("Check your credentials");
         }
         else{
