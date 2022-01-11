@@ -73,13 +73,19 @@ app.post('/login', (req, res) => {
     db.query("SELECT password FROM username WHERE user = '"+user+"'", (err, result) => {
         if(err){
             console.log(err.message);
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             res.send("Check your credentials");
         }
         else{
             if(pass === result[0].password){
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.send("User can proceed!!!");
             }
             else{
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.send("Incorrect password!!");
             }
         }
