@@ -11,7 +11,7 @@ const fs = require('fs');
 const e = require('express');
 let d = "";
 const corsOpts = {
-    origin: '*',
+    origin: 'http://localhost:3000',
   
     methods: [
       'GET',
