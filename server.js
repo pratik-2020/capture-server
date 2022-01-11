@@ -87,6 +87,7 @@ app.post('/login', (req, res) => {
     const pass = req.body.pass
     console.log(user+' '+pass);
     db.query("SELECT password FROM username WHERE user = '"+user+"'", (err, result) => {
+        console.log(user+" "+pass);
         if(err){
             console.log(err.message);
             res.header("Access-Control-Allow-Origin", "*");
