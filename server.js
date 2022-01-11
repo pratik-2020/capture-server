@@ -78,11 +78,7 @@ const tp = mailer.createTransport({
     }
 })
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
+    res.setHeader('Access-Control-Allow-Origin', 'https://capture-img-server.herokuapp.com/');
 });
 app.post('/login', (req, res) => {
     const user = req.body.user
