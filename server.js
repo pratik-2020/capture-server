@@ -22,7 +22,9 @@ const corsOpts = {
       'Content-Type',
     ],
   };
-app.use(cors(corsOpts));
+app.use(cors({
+    origin: "http://localhost:3000"
+}));
 app.use(express.json());
 require('dotenv').config();
 const host = process.env.host;
