@@ -18,7 +18,9 @@ const corsOpts = {
       'POST',
     ]
   };
-app.use(cors(corsOpts));
+app.use(cors({
+    origin: '*'
+}));
 app.use(express.json());
 require('dotenv').config();
 const host = process.env.host;
