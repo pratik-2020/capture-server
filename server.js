@@ -87,7 +87,10 @@ app.post('/login', (req, res) => {
             res.send("Check your credentials");
         }
         else{
-            if(pass === result[0].password){
+            if(result.length === 0){
+                res.send("User not exist");
+            }
+            else if(pass === result[0].password){
                 res.header("Access-Control-Allow-Origin", "*");
                 res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.send("User can proceed!!!");
