@@ -18,13 +18,7 @@ const corsOpts = {
       'POST',
     ]
   };
-app.use(cors({
-    origin: 'https://capture-img.herokuapp.com',
-    methods: [
-        'GET',
-        'POST'
-    ]
-}));
+app.use(cors(corsOpts));
 app.use(express.json());
 require('dotenv').config();
 const host = process.env.host;
