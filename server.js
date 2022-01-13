@@ -394,7 +394,7 @@ app.post('/crtgrp', (req, res) => {
         }
         else{
             res.sendStatus('200');
-            res.send(grpnm);
+            res.send(""+grpnm);
         }
     })
 });
