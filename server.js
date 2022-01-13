@@ -390,9 +390,10 @@ app.post('/crtgrp', (req, res) => {
     console.log(adm+" "+grpnm);
     db.query('INSERT INTO grp VALUES(?,?)', [grpnm, adm], (err, result) => {
         if(err){
-            res.send(err.message);
+            res.send(err);
         }
         else{
+            res.sendStatus('200');
             res.send(grpnm);
         }
     })
