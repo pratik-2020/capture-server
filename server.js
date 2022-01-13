@@ -369,6 +369,34 @@ app.post('/msg/seen', (req, res) => {
         }
     })
 })
+app.post('/msgsend', (req, res) => {
+    const sender = req.body.sender;
+    const reciever = req.body.reciever;
+    const msg = req.body.msg;
+    const chtid = sender+reciever + new Date().getDate() + new Date().getTime();
+    db.query("INSERT INTO sharedimages VALUES(?,?,?,?,?,?,?,?)", [sender, reciever,chtid,msg,'no','','no','no'], (err, result) => {
+        if(err){
+            res.send(err);
+        }
+        else{
+            res.send("Message send successfully");
+        }
+    });
+});
+
+app.post('/crtgrp', (req, res) => {
+    const adm = req.body.adm;
+    const grpnm = adm + new Date().getDate() +  new Date().getTime();
+    console.log(adm+" "+grpnm);
+    db.query('INSERT INTO grp VALUES(?,?)', [grpnm, adm], (err, result) => {
+        if(err){
+            res.send(err.message);
+        }
+        else{
+            res.send(grpnm);
+        }
+    })
+});
 const pt = argv.port || 3001;
 app.listen( pt, () => {
     console.log("Listening at "+pt+"!!");
