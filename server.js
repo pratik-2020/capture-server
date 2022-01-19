@@ -66,22 +66,12 @@ const upload = multer({
     },
     fileFilter: filefilter
 });
-const tp = mailer.createTransport({
-    service:"gmail",
-    auth: {
-        user:"capture31122021@gmail.com",
-        pass:"Capture@123"
-    }
-})
-// app.use(function(req, res, next) {
-//         res.setHeader('Access-Control-Allow-Origin', '*');
-// });
 app.post('/login', (req, res) => {
     const user = req.body.user
     const pass = req.body.pass
     console.log(user+' '+pass);
     db.query("SELECT password FROM username WHERE user = '"+user+"'", (err, result) => {
-        console.log(user+" "+pass);
+        // console.log(user+" "+pass+" ");
         if(err){
             console.log(err.message);
             res.send("Check your credentials");
@@ -91,6 +81,10 @@ app.post('/login', (req, res) => {
                 res.send("User not exist");
             }
             else if(pass === result[0].password){
+                if('pratik' === 'Pratik'){
+                    console.log("true");
+                }
+                console.log(result);
                 res.header("Access-Control-Allow-Origin", "*");
                 res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
                 res.send("User can proceed!!!");
@@ -104,29 +98,8 @@ app.post('/login', (req, res) => {
     })
 });
 
-app.post("/signup", (req, res) => {
-    const user = req.body.user;
-    const pass = req.body.pass;
-})
-// app.post('/uploadimg', upload.single('img'), (req, res) => {
-//     if(req.file.filename){
-//         db.query(`INSERT INTO test (imgid, img) VALUES (?, ?)`, [3, `load_file(${'./uploads/212345.jpg'})`], (err, result) => {
-//             if(err){
-//                 res.send(err.message);
-//             }
-//             else{
-//                 res.send("Image uploaded");
-//             }
-//         })
-//     }
-//     else{
-//         res.status(500).json({
-//             message: "Something went wrong!!"
-//         })
-//     }
-// });
 app.post('/updimg', upload.single('img'), (req, res) => {
-    const user = req.body.user;
+    const user = req.body.user.toLowerCase();
     const caption = req.body.caption;
     const timestmp = new Date().getDate() + new Date().getTime();
     const fnm = d
@@ -142,9 +115,10 @@ app.post('/updimg', upload.single('img'), (req, res) => {
         })
     }
 });
+
 app.post('/shareimg', (req, res) => {
-    const sender = req.body.sender;
-    const reciever = req.body.reciever;
+    const sender = req.body.sender.toLowerCase();
+    const reciever = req.body.reciever.toLowerCase();
     const fnm = req.body.fnm;
     const caption = req.body.caption;
     const g = 'no';
@@ -159,10 +133,10 @@ app.post('/shareimg', (req, res) => {
     })
 });
 app.post('/otpverification', (req,res) => {
-    const user = req.body.user;
+    const user = req.body.user.toLowerCase();
     const pass = req.body.pass;
-    const state = req.body.state;
-    const email = req.body.email;
+    const state = req.body.state.toLowerCase();
+    const email = req.body.email.toLowerCase();
     db.query("SELECT user FROM username WHERE EXISTS (SELECT user FROM username WHERE user = '"+user+"')", (err, result) => {
         if(err){
             res.send(result);
@@ -177,21 +151,7 @@ app.post('/otpverification', (req,res) => {
                         res.send("Error in registration");
                     }
                     else{
-                        const mailoptions = {
-                            from: 'capture31122021@gmail.com',
-                            to : email,
-                            subject: 'Successful registration',
-                            text: 'You have successfully registered'
-                        };
-                        tp.sendMail(mailoptions, (error, info) => {
-                            if(error){
-                                console.log("error : "+error.message);
-                            }
-                            else{
-                                console.log("Info "+info.response);
-                            }
-                        });
-                        db.query("CREATE TABLE "+user+" (name VARCHAR(50), status VARCHAR(50))", (eror, reslt) => {
+                        db.query("CREATE TABLE "+user+" (name VARCHAR(500), status VARCHAR(50))", (eror, reslt) => {
                             if(eror){
                                 console.log(eror);
                             }
@@ -216,7 +176,7 @@ app.get('/getusers', (req, res) => {
     })
 });
 app.post('/getfrnd', (req, res) => {
-    const user = req.body.user;
+    const user = req.body.user.toLowerCase();
     db.query('SELECT * FROM '+user, (err, result) => {
         if(err){
             res.send(err.message);
@@ -227,8 +187,8 @@ app.post('/getfrnd', (req, res) => {
     })
 })
 app.post('/sendfrndreq', (req, res) => {
-    const sender = req.body.sender;
-    const reciever = req.body.reciever;
+    const sender = req.body.sender.toLowerCase();
+    const reciever = req.body.reciever.toLowerCase();
     db.query('INSERT INTO '+reciever+" VALUES (?,?)",[sender, 'pending'], (err, result) => {
         if(err){
             res.send(err.message);
@@ -246,8 +206,8 @@ app.post('/sendfrndreq', (req, res) => {
     })
 });
 app.post('/respfrnd', (req, res) => {
-    const sender = req.body.sender
-    const reciever = req.body.reciever
+    const sender = req.body.sender.toLowerCase()
+    const reciever = req.body.reciever.toLowerCase()
     const resp = req.body.resp;
     if(resp === 'Confirm'){
         db.query('UPDATE '+sender+" SET status = 'Confirm' WHERE name = '"+reciever+"'", (err, result) => {
@@ -285,7 +245,7 @@ app.post('/respfrnd', (req, res) => {
     }
 })
 app.post('/retrievestorage', (req, res) => {
-    const user = req.body.user;
+    const user = req.body.user.toLowerCase();
     db.query("SELECT * FROM userstorage WHERE user = '"+user+"'", (err, result) => {
         if(err){
             res.send(err.message);
@@ -296,8 +256,8 @@ app.post('/retrievestorage', (req, res) => {
     })
 });
 app.post('/retrieveshared', (req, res) => {
-    const sender = req.body.sender;
-    const reciever = req.body.reciever;
+    const sender = req.body.sender.toLowerCase();
+    const reciever = req.body.reciever.toLowerCase();
     db.query("SELECT * FROM sharedimages WHERE sender = '"+sender+"' and reciever = '"+reciever+"'", (err, result) => {
         if(err){
             res.send(err.message);
@@ -388,7 +348,7 @@ app.post('/msgsend', (req, res) => {
 });
 
 app.post('/crtgrp', (req, res) => {
-    const adm = req.body.adm;
+    const adm = req.body.adm.toLowerCase();
     const grpnm = adm + new Date().getDate() +  new Date().getTime();
     console.log(adm+" "+grpnm);
     db.query('INSERT INTO grp VALUES(?,?)', [grpnm, adm], (err, result) => {
