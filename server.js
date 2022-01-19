@@ -177,7 +177,7 @@ app.get('/getusers', (req, res) => {
 });
 app.post('/getfrnd', (req, res) => {
     const user = req.body.user.toLowerCase();
-    db.query('SELECT * FROM '+user, (err, result) => {
+    db.query('SELECT distinct name, status FROM '+user, (err, result) => {
         if(err){
             res.send(err.message);
         }
