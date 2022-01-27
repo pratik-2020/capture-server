@@ -258,7 +258,7 @@ app.post('/retrievestorage', (req, res) => {
 app.post('/retrieveshared', (req, res) => {
     const sender = req.body.sender.toLowerCase();
     const reciever = req.body.reciever.toLowerCase();
-    db.query("SELECT * FROM sharedimages WHERE sender = '"+sender+"' and reciever = '"+reciever+"'", (err, result) => {
+    db.query("SELECT * FROM sharedimages WHERE (sender = '"+sender+"' and reciever = '"+reciever+"') or (sender = '"+reciever+"' and reciever = '"+sender+"')", (err, result) => {
         if(err){
             res.send(err.message);
         }
